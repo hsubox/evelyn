@@ -15,8 +15,12 @@ class App extends Component {
     return (
       <div className="App">
         {
+          this.props.experiments.err ?
+          (
+            <span>Error: {this.props.experiments.err.message}</span>
+          ) :
           this.props.experiments.fetching ?
-            (<span>'Loading'</span>) :
+            (<span>Loading</span>) :
             (
               <ExperimentList
                 records={this.props.experiments.records}

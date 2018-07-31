@@ -1,14 +1,14 @@
 import {
     EXPERIMENTS_FETCH,
     EXPERIMENTS_FETCH_FAIL,
-    EXPERIMENTS_FETCH_SUCCESS
+    EXPERIMENTS_FETCH_SUCCESS,
 } from 'data/experiments/actions';
 
 const initialState = {
     fetching: false,
     fetched: false,
     err: null,
-    records: []
+    records: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -18,21 +18,22 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 fetching: true,
                 fetched: false,
-                err: null
+                err: null,
             };
         case EXPERIMENTS_FETCH_SUCCESS:
             return {
                 ...state,
                 fetching: false,
                 fetched: true,
-                records: action.payload.data.records
+                records: action.payload.data.records,
             };
-        case EXPERIMENTS_FETCH_SUCCESS:
+        case EXPERIMENTS_FETCH_FAIL:
             return {
                 ...state,
                 fetching: false,
                 fetched: false,
-                records: []
+                err: action.err,
+                records: [],
             };
         default:
             return state;
