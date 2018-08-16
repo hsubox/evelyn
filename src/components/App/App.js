@@ -3,27 +3,35 @@ import logo from './../../logo.svg';
 import './App.css';
 import {connect} from 'react-redux';
 import {fetchExperiments} from 'data/experiments/actions.js';
+import {fetchPlanning} from 'data/planning/actions.js';
 import {experimentsSelector} from 'data/experiments/selectors.js';
+import {planningSelector} from 'data/planning/selectors.js';
 import { ExperimentList } from '../ExperimentList/ExperimentList';
 
 class App extends Component {
   componentDidMount() {
     this.props.fetchExperiments();
+    this.props.fetchPlanning();
   }
 
   render() {
+    console.log(this.props);
+    const err = this.props.experiments.err || this.props.planning.err;
+    const fetching = this.props.experiments.fetching || this.props.planning.fetching;
+
     return (
       <div className="App">
         {
-          this.props.experiments.err ?
+          err ?
           (
-            <span>Error: {this.props.experiments.err.message}</span>
+            <span>Error: {err.message}</span>
           ) :
-          this.props.experiments.fetching ?
+          fetching ?
             (<span>Loading</span>) :
             (
               <ExperimentList
-                records={this.props.experiments.records}
+                experiments={this.props.experiments.records}
+                planning={this.props.planning.records}
               />
             )
         }
@@ -32,9 +40,15 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = experimentsSelector;
+const mapStateToProps = (state) => {
+  return {
+    ...experimentsSelector(state),
+    ...planningSelector(state)
+  };
+};
 const mapDispatchToProps = {
-  fetchExperiments
+  fetchExperiments,
+  fetchPlanning
 };
 
 export default connect(

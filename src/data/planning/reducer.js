@@ -1,26 +1,26 @@
 import {
-    EXPERIMENTS_FETCH,
-    EXPERIMENTS_FETCH_FAIL,
-    EXPERIMENTS_FETCH_SUCCESS,
-} from 'data/experiments/actions';
+    PLANNING_FETCH,
+    PLANNING_FETCH_FAIL,
+    PLANNING_FETCH_SUCCESS,
+} from 'data/planning/actions';
 
 const initialState = {
     fetching: false,
     fetched: false,
     err: null,
-    records: [],
+    records: {},
 };
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
-        case EXPERIMENTS_FETCH:
+        case PLANNING_FETCH:
             return {
                 ...state,
                 fetching: true,
                 fetched: false,
                 err: null,
             };
-        case EXPERIMENTS_FETCH_SUCCESS:
+        case PLANNING_FETCH_SUCCESS:
             return {
                 ...state,
                 fetching: false,
@@ -30,13 +30,13 @@ const reducer = (state = initialState, action) => {
                     return memo;
                 }, {}),
             };
-        case EXPERIMENTS_FETCH_FAIL:
+        case PLANNING_FETCH_FAIL:
             return {
                 ...state,
                 fetching: false,
                 fetched: false,
                 err: action.err,
-                records: [],
+                records: {},
             };
         default:
             return state;
